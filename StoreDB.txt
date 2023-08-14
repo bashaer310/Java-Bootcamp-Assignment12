@@ -15,7 +15,7 @@ create table user (
     email varchar(20)  unique ,
     gender char(1)  not null check (gender = 'm'or gender ='f') ,
     date_of_birth varchar(15) ,
-    country_code int(10),
+    country_code int,
     created_at datetime default CURRENT_TIMESTAMP(),
     foreign key (country_code) references country(code) ON DELETE CASCADE
 );
