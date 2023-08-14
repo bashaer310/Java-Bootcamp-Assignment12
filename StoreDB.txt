@@ -1,0 +1,61 @@
+create database store;
+
+create table country (
+    code int primary key ,
+    name varchar(20) unique,
+    continent_name varchar(20) not null,
+    created_at datetime default CURRENT_TIMESTAMP()
+);
+
+create table user (
+    id int primary key ,
+    full_name varchar(20) ,
+    email varchar(20)  unique ,
+    gender char(1)  not null check (gender = 'm'or'f') ,
+    date_of_birth varchar(15) ,
+    country_code int(10),
+    created_at datetime default CURRENT_TIMESTAMP(),
+    foreign key (country_code) references country(code) ON DELETE CASCADE
+);
+
+
+create table order (
+    id int primary key ,
+    user_id int ,
+    status varchar(6) check ( status='start'or'finish' ),
+    created_at datetime default CURRENT_TIMESTAMP(),
+   foreign key (user_id) references user(id) ON DELETE CASCADE
+
+);
+
+create table product (
+    id int primary key ,
+    name varchar(20) not null ,
+    price int default 0,
+    status varchar(6) check ( status='valid'or'expired' ),
+    created_at datetime default CURRENT_TIMESTAMP()
+
+);
+
+create table order_item (
+    order_id int primary key ,
+    product_id int,
+    quantity int default 0,
+    created_at datetime default CURRENT_TIMESTAMP(),
+    foreign key (order_id) references order(id) ON DELETE CASCADE,
+    foreign key (product_id) references product(id) ON DELETE CASCADE
+
+);
+
+insert into country values (01,'saudi arabia','Asia');
+insert into user values (01,'Bashaer Saed','bashaer@gmail.com','f','10-3-2001','01');
+insert into order values (01,01,'start');
+insert into product values (01,'book',30,'valid');
+insert into order_item values (01,01,2);
+
+
+update country set name = 'SA' where code = 01;
+
+delete from product where status='expired';
+
+
