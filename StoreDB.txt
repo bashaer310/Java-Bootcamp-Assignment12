@@ -1,5 +1,6 @@
 
-create database store1;
+
+create database store;
 
 create table country (
     code int primary key ,
@@ -12,7 +13,7 @@ create table user (
     id int primary key ,
     full_name varchar(20) ,
     email varchar(20)  unique ,
-    gender char(1)  not null check (gender = 'm'or'f') ,
+    gender char(1)  not null check (gender = 'm'or gender ='f') ,
     date_of_birth varchar(15) ,
     country_code int(10),
     created_at datetime default CURRENT_TIMESTAMP(),
@@ -23,7 +24,7 @@ create table user (
 create table orders (
     id int primary key ,
     user_id int ,
-    status varchar(6) check ( status='start'or'finish' ),
+    status varchar(6) check ( status='start'or status='finish' ),
     created_at datetime default CURRENT_TIMESTAMP(),
    foreign key (user_id) references user(id) ON DELETE CASCADE
 
@@ -33,7 +34,7 @@ create table product (
     id int primary key ,
     name varchar(20) not null ,
     price int default 0,
-    status varchar(6) check ( status='valid'or'expired' ),
+    status varchar(10) check (status='valid' or status='expired'),
     created_at datetime default CURRENT_TIMESTAMP()
 
 );
@@ -56,14 +57,13 @@ create table order_item (
 insert into country values (01,'saudi arabia','Asia',DEFAULT);
 insert into user values (01,'Bashaer Saed','bashaer@gmail.com','f','10-3-2001','01',DEFAULT);
 insert into orders values (01,01,'start',DEFAULT);
-insert into product values (01,'book',30,'valid',DEFAULT);
+insert into product values (01,'book',30,'expired',DEFAULT);
 insert into order_item values (01,01,2,DEFAULT);
 
 
 update country set name = 'SA' where code = 01;
 
 delete from product where status='expired';
-
 
 
 
